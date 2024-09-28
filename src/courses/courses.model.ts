@@ -1,9 +1,8 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { Students } from '../students/students.model';
+import { StudentCourses } from '../student-courses/student-courses.model';
 
-@Table({
-  tableName: 'courses', // Optional: If you want to explicitly define the table name
-  timestamps: true,     // Optional: Disable createdAt and updatedAt columns if not needed
-})
+@Table
 
 export class Courses extends Model<Courses> {
   @Column({
@@ -32,4 +31,7 @@ export class Courses extends Model<Courses> {
     defaultValue: 1,
   })
   state: number;
+
+  @BelongsToMany(() => Students, () => StudentCourses) // Association to StudentCourses
+  students: Students[];
 }

@@ -2,11 +2,16 @@ import { Column, ForeignKey, Model, Table, DataType } from 'sequelize-typescript
 import { Students } from '../students/students.model'; // Adjust the path as needed
 import { Courses } from '../courses/courses.model'; // Adjust the path as needed
 
-@Table({
-  tableName: 'studentCourses', // Optional: If you want to explicitly define the table name
-  timestamps: true,     // Optional: Disable createdAt and updatedAt columns if not needed
-})
+@Table
 export class StudentCourses extends Model<StudentCourses> {
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  })
+  id: number;
+
   @ForeignKey(() => Students)
   @Column({
     type: DataType.INTEGER,

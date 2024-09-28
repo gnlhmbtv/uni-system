@@ -1,8 +1,9 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { Students } from '../students/students.model';
 
 @Table
 
-export class Departments extends Model{
+export class Departments extends Model<Departments> {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -29,4 +30,7 @@ export class Departments extends Model{
     defaultValue: 1,
   })
   state: number;
+
+  @HasMany(() => Students)
+  students: Students[];
 }
