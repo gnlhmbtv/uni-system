@@ -17,13 +17,27 @@ export class StudentCoursesService {
 
   //Register students to course
   async registerCourse(studentId: number, courseId: number): Promise<StudentCourses> {
-    const student = await this.studentModel.findByPk(studentId);
-    const course = await this.courseModel.findByPk(courseId);
-
-    if (student && course) {
-      return this.studentCourseModel.create({ studentId, courseId });
+    const student = await this.studentModel.findOne({
+      where: {
+        id: studentId,
+        state: 1
+      }
+    })
+    if (!student) {
+      throw new NotFoundException('Student not found');
     }
-    throw new Error('Student or Course not found');
+
+    const course = await this.courseModel.findOne({
+      where:{
+        id: courseId,
+        state: 1
+      }
+    });
+
+    if (!course) {
+      throw new NotFoundException('Course not found');
+    }
+      return this.studentCourseModel.create({ studentId, courseId });
   }
 
   //Get student courses
@@ -38,7 +52,9 @@ export class StudentCoursesService {
         }
       },
     });
-
+    if (studentCourses.length === 0) {
+      throw new NotFoundException('This student does not registered any courses');
+    }
     return studentCourses.map(sc => ({
       courseId: sc.course.id,
       courseName: sc.course.name,

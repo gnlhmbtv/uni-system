@@ -22,27 +22,42 @@ export class CoursesService {
   }
 
   //Get single course
-  getSingleCourse(id: number): Promise<Courses> {
-    return this.courseModel.findByPk(id);
-  }
+  getSingleCourse(courseId: number): Promise<Courses> {
+    const course = this.courseModel.findOne({
+      where: {
+        id: courseId,
+        state:1
+      }
+    });
+    if (!course) {
+      throw new NotFoundException('Course not found');
+    }
+    return course;
+    }
+
 
   //Update course
   async updateCourse(id: number, updateCourseDto: UpdateCourseDto): Promise<Courses> {
     const course = await this.courseModel.findByPk(id);
     if (!course) {
-      throw new NotFoundException('Department not found');
+      throw new NotFoundException('Course not found');
     }
     return course.update(updateCourseDto);
   }
 
   //Delete course
-  async deleteCourse(id: number): Promise<string> {
-    const course = await this.courseModel.findByPk(id);
+  async deleteCourse(courseId: number): Promise<string> {
+    const course = await this.courseModel.findOne({
+      where:{
+        id: courseId,
+        state:1
+      }
+    });
     if (!course) {
-      throw new NotFoundException('Department not found');
+      throw new NotFoundException('Course not found');
     }
     course.state = 0;
     await course.save();
-    return `Course with ID ${id} has been deleted (soft delete).`;
+    return `Course with ID ${courseId} has been deleted (soft delete).`;
   }
 }

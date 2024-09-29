@@ -10,10 +10,15 @@ import { UpdateStudentDto } from './student-dto/update-student.dto';
 export class StudentsService {
   constructor(
     @InjectModel(Students) private studentModel: typeof Students,
+    @InjectModel(Departments) private departmentModel: typeof Departments,
   ) {}
 
   //Create student
   async createStudent(createStudentDto: CreateStudentDto): Promise<Students> {
+    const department = await this.departmentModel.findByPk(createStudentDto.departmentId);
+    if (!department) {
+      throw new NotFoundException('Department not found');
+    }
       return this.studentModel.create(createStudentDto);
   }
 
@@ -26,15 +31,35 @@ export class StudentsService {
 
   //Get single student
   async getSingleStudent(studentId: number): Promise<Students> {
-    return await this.studentModel.findByPk(studentId);
+    const student = await this.studentModel.findOne({
+      where: {
+        id: studentId,
+        state: 1
+      },
+    });
+    if (!student) {
+      throw new NotFoundException('Student not found');
+    }
+    return student;
   }
 
   //Update student
   async updateStudent(id: number, updateStudentDto: UpdateStudentDto): Promise<Students> {
     const student = await this.studentModel.findByPk(id);
     if (!student) {
+      throw new NotFoundException('Student not found');
+    }
+    const {departmentId} = updateStudentDto;
+    const department = await this.departmentModel.findOne({
+      where:{
+        id: departmentId,
+        state:1
+      }
+    })
+    if (!department) {
       throw new NotFoundException('Department not found');
     }
+
     return student.update(updateStudentDto);
   }
 
@@ -42,7 +67,7 @@ export class StudentsService {
   async deleteStudent(id: number): Promise<string> {
     const student = await this.studentModel.findByPk(id);
     if (!student) {
-      throw new NotFoundException('Department not found');
+      throw new NotFoundException('Student not found');
     }
     student.state = 0;
     await student.save();
