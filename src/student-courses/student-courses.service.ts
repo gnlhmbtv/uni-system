@@ -26,14 +26,12 @@ export class StudentCoursesService {
     if (!student) {
       throw new NotFoundException('Student not found');
     }
-
     const course = await this.courseModel.findOne({
       where:{
         id: courseId,
         state: 1
       }
     });
-
     if (!course) {
       throw new NotFoundException('Course not found');
     }
@@ -61,5 +59,4 @@ export class StudentCoursesService {
       courseDescription: sc.course.description,
     }));
   }
-
 }
