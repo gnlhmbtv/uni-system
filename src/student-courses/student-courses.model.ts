@@ -1,4 +1,4 @@
-import { Column, ForeignKey, Model, Table, DataType } from 'sequelize-typescript';
+import { Column, ForeignKey, Model, Table, DataType, BelongsTo } from 'sequelize-typescript';
 import { Students } from '../students/students.model'; // Adjust the path as needed
 import { Courses } from '../courses/courses.model'; // Adjust the path as needed
 
@@ -32,4 +32,11 @@ export class StudentCourses extends Model<StudentCourses> {
     defaultValue: 1,
   })
   state: number;
+
+  @BelongsTo(() => Students, 'studentId')
+  student: Students;
+
+  @BelongsTo(() => Courses, 'courseId')
+  course: Courses;
+
 }

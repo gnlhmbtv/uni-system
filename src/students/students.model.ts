@@ -40,7 +40,7 @@ export class Students extends Model<Students> {
   })
   state: number;
 
-  @BelongsToMany(() => Courses, () => StudentCourses) // Association to StudentCourses
+  @BelongsToMany(() => Courses, () => StudentCourses)
   courses: Courses[];
 
   @BelongsTo(() => Departments)

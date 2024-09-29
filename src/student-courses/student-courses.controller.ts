@@ -15,9 +15,9 @@ export class StudentCoursesController {
     return this.studentCourseService.registerCourse(studentId, courseId);
   }
 
-  @Get('student/:studentId')
-  async getStudentCourses(@Param('studentId') studentId:number):Promise<number[]> {
-    return await this.studentCourseService.getCoursesByStudentId(studentId);
+  @Get(':studentId/courses')
+  findCoursesByStudent(@Param('studentId') studentId: number): Promise<any> {
+    return this.studentCourseService.findCoursesByStudent(studentId);
   }
 
 

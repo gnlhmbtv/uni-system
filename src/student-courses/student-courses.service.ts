@@ -27,14 +27,23 @@ export class StudentCoursesService {
   }
 
   //Get student courses
-  async getCoursesByStudentId(studentId: number): Promise<number[]> {
+  async findCoursesByStudent(studentId: number): Promise<any[]> {
     const studentCourses = await this.studentCourseModel.findAll({
-      where: { studentId },
-      include: [{ model: Courses }], // Include the Courses model
+      where: { studentId, state: 1 },
+      include: {
+        model: Courses,
+        attributes: ['id', 'name', 'description'],
+        where: {
+          state: 1,
+        }
+      },
     });
 
-    // Extract courses from studentCourses
-    return studentCourses.map((sc) => sc.courseId); // Use courseId to access course
+    return studentCourses.map(sc => ({
+      courseId: sc.course.id,
+      courseName: sc.course.name,
+      courseDescription: sc.course.description,
+    }));
   }
 
 }

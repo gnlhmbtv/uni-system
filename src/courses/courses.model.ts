@@ -32,6 +32,6 @@ export class Courses extends Model<Courses> {
   })
   state: number;
 
-  @BelongsToMany(() => Students, () => StudentCourses) // Association to StudentCourses
+  @BelongsToMany(() => Students, () => StudentCourses)
   students: Students[];
 }
