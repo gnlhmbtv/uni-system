@@ -3,7 +3,9 @@ import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './course-dto/create-course.dto';
 import { Courses } from './courses.model';
 import { UpdateCourseDto } from './course-dto/update-course.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('courses')
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}

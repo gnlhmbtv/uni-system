@@ -1,5 +1,5 @@
 import { Column, ForeignKey, Model, Table, DataType, BelongsTo } from 'sequelize-typescript';
-import { Students } from '../students/students.model'; // Adjust the path as needed
+import { Users } from '../users/users.model'; // Adjust the path as needed
 import { Courses } from '../courses/courses.model'; // Adjust the path as needed
 
 @Table
@@ -12,12 +12,12 @@ export class StudentCourses extends Model<StudentCourses> {
   })
   id: number;
 
-  @ForeignKey(() => Students)
+  @ForeignKey(() => Users)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  studentId: number;
+  userId: number;
 
   @ForeignKey(() => Courses)
   @Column({
@@ -33,8 +33,8 @@ export class StudentCourses extends Model<StudentCourses> {
   })
   state: number;
 
-  @BelongsTo(() => Students, 'studentId')
-  student: Students;
+  @BelongsTo(() => Users, 'userId')
+  user: Users;
 
   @BelongsTo(() => Courses, 'courseId')
   course: Courses;

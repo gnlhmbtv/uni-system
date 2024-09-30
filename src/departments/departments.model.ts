@@ -1,5 +1,5 @@
 import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
-import { Students } from '../students/students.model';
+import { Users } from '../users/users.model';
 
 @Table
 
@@ -31,6 +31,6 @@ export class Departments extends Model<Departments> {
   })
   state: number;
 
-  @HasMany(() => Students)
-  students: Students[];
+  @HasMany(() => Users)
+  users: Users[];
 }

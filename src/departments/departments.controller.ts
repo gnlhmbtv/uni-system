@@ -3,7 +3,9 @@ import { DepartmentsService } from './departments.service';
 import {CreateDepartmentDto} from './department-dto/create-department.dto';
 import { Departments } from './departments.model';
 import { UpdateDepartmentDto } from './department-dto/update-department.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('departments')
 @Controller('departments')
 export class DepartmentsController {
   constructor(private departmentsService: DepartmentsService) {}

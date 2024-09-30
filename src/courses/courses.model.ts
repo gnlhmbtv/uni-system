@@ -1,5 +1,5 @@
 import { BelongsToMany, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
-import { Students } from '../students/students.model';
+import { Users } from '../users/users.model';
 import { StudentCourses } from '../student-courses/student-courses.model';
 
 @Table
@@ -32,6 +32,6 @@ export class Courses extends Model<Courses> {
   })
   state: number;
 
-  @BelongsToMany(() => Students, () => StudentCourses)
-  students: Students[];
+  @BelongsToMany(() => Users, () => StudentCourses)
+  users: Users[];
 }

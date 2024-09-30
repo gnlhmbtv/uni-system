@@ -6,14 +6,14 @@ import { DepartmentsModule } from './departments/departments.module';
 import { DepartmentsController } from './departments/departments.controller';
 import { DepartmentsService } from './departments/departments.service';
 import { Departments } from './departments/departments.model';
-import { StudentsModule } from './students/students.module';
-import { Students } from './students/students.model';
+import { UsersModule } from './users/users.module';
 import { Courses } from './courses/courses.model';
 import { CoursesModule } from './courses/courses.module';
 import { StudentCourses } from './student-courses/student-courses.model';
 import { StudentCoursesModule } from './student-courses/student-courses.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 //import { initModels } from './initModels';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -37,9 +37,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
     }),
     DepartmentsModule,
-    StudentsModule,
+    UsersModule,
     CoursesModule,
-    StudentCoursesModule
+    StudentCoursesModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

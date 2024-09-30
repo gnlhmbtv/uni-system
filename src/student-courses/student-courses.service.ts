@@ -1,6 +1,6 @@
 import { Body, Injectable, Logger, NotFoundException, Post } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Students } from '../students/students.model';
+import {  Users } from '../users/users.model';
 import { Model } from 'sequelize-typescript';
 import { StudentCourses } from './student-courses.model';
 import { RegisterCourseDto } from './student-courses-dto/register-course.dto';
@@ -10,21 +10,21 @@ import { Courses } from '../courses/courses.model';
 export class StudentCoursesService {
   constructor(
     @InjectModel(StudentCourses) private studentCourseModel: typeof StudentCourses,
-    @InjectModel(Students) private studentModel: typeof Students,
+    @InjectModel(Users) private userModel: typeof Users,
     @InjectModel(Courses) private courseModel: typeof Courses
   ) {
   }
 
-  //Register students to course
-  async registerCourse(studentId: number, courseId: number): Promise<StudentCourses> {
-    const student = await this.studentModel.findOne({
+  //Register users to course
+  async registerCourse(userId: number, courseId: number): Promise<StudentCourses> {
+    const user = await this.userModel.findOne({
       where: {
-        id: studentId,
+        id: userId,
         state: 1
       }
     })
-    if (!student) {
-      throw new NotFoundException('Student not found');
+    if (!user) {
+      throw new NotFoundException('User not found');
     }
     const course = await this.courseModel.findOne({
       where:{
@@ -35,13 +35,13 @@ export class StudentCoursesService {
     if (!course) {
       throw new NotFoundException('Course not found');
     }
-      return this.studentCourseModel.create({ studentId, courseId });
+      return this.studentCourseModel.create({ userId, courseId });
   }
 
-  //Get student courses
-  async findCoursesByStudent(studentId: number): Promise<any[]> {
+  //Get user courses
+  async findCoursesByStudent(userId: number): Promise<any> {
     const studentCourses = await this.studentCourseModel.findAll({
-      where: { studentId, state: 1 },
+      where: { userId, state: 1 },
       include: {
         model: Courses,
         attributes: ['id', 'name', 'description'],
@@ -51,7 +51,7 @@ export class StudentCoursesService {
       },
     });
     if (studentCourses.length === 0) {
-      throw new NotFoundException('This student does not registered any courses');
+      throw new NotFoundException('This user does not registered any courses');
     }
     return studentCourses.map(sc => ({
       courseId: sc.course.id,

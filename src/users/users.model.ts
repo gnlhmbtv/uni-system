@@ -1,10 +1,11 @@
 import { Column, DataType, ForeignKey, Model, Table, BelongsToMany, HasMany, BelongsTo } from 'sequelize-typescript';
 import { Departments } from '../departments/departments.model';
 import { Courses } from '../courses/courses.model';
-import { StudentCourses } from '../student-courses/student-courses.model'; // Adjust the path according to your project structure
+import { StudentCourses } from '../student-courses/student-courses.model';
+import { Col } from 'sequelize/types/utils'; // Adjust the path according to your project structure
 
 @Table
-export class Students extends Model<Students> {
+export class Users extends Model<Users> {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -32,6 +33,19 @@ export class Students extends Model<Students> {
     allowNull: false,
   })
   departmentId: number;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+  })
+  username: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  password: string;
 
   @Column({
     type:DataType.BOOLEAN,
