@@ -3,7 +3,7 @@ import { Users } from '../users/users.model';
 
 @Table
 
-export class Departments extends Model<Departments> {
+export class  Departments extends Model<Departments> {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,

@@ -37,4 +37,9 @@ export class DepartmentsController {
     return this.departmentsService.deleteDepartment(id);
   }
 
+  @Get('department-students/:id')
+   getDepartmentStudents(@Param('id') id: number):Promise<any> {
+    return this.departmentsService.getDepartmentStudents(id);
+  }
+
 }
