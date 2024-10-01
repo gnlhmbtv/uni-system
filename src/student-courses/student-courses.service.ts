@@ -45,18 +45,36 @@ export class StudentCoursesService {
       include: {
         model: Courses,
         attributes: ['id', 'name', 'description'],
-        where: {
-          state: 1,
-        }
+        where: { state: 1}
       },
     });
     if (studentCourses.length === 0) {
       throw new NotFoundException('This user does not registered any courses');
     }
-    return studentCourses.map(sc => ({
-      courseId: sc.course.id,
-      courseName: sc.course.name,
-      courseDescription: sc.course.description,
+    return studentCourses.map(c => ({
+      courseId: c.course.id,
+      courseName: c.course.name,
+      courseDescription: c.course.description,
     }));
+  }
+
+  //Get course users
+  async findStudentsByCourse(courseId: number): Promise<any> {
+    const courseStudents = await this.studentCourseModel.findAll({
+      where: {courseId, state: 1 },
+      include: {
+        model: Users,
+        attributes: ['id', 'fullName', 'email'],
+        where: {state: 1}
+      }
+    });
+    if (courseStudents.length === 0) {
+      throw new NotFoundException('There is no registered student');
+    }
+    return courseStudents.map(s => ({
+      studentId: s.user.id,
+      studentName: s.user.fullName,
+      studentEmail: s.user.email
+    }))
   }
 }

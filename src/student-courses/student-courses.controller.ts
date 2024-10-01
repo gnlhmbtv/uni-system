@@ -25,5 +25,10 @@ export class StudentCoursesController {
     return this.studentCourseService.findCoursesByStudent(userId);
   }
 
+  @Get('course-students/:id')
+  getCourseStudents(@Param('id') id:number):Promise<any> {
+    return this.studentCourseService.findStudentsByCourse((id));
+  }
+
 
 }
