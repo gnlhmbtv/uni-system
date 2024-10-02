@@ -18,10 +18,10 @@ import { StudentCoursesModule } from './student-courses/student-courses.module';
   imports: [
     SequelizeModule.forRoot({
       dialect: 'mysql',
-      host: '127.0.0.1',        // Your MySQL server's address
+      host: 'localhost',        // Your MySQL server's address
       port: 3306,               // Default MySQL port
       username: 'root',         // Your MySQL username
-      password: 'Gnl4578961@',     // Your MySQL password
+      password: 'admin',     // Your MySQL password
       database: 'unidb', // Your database name
       autoLoadModels: true,     // Automatically load models
       synchronize: true,
